@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.35806.103 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyLame", "EasyLame.csproj", "{BEFECCB3-F06F-482C-863F-DB029C5A9EEC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BEFECCB3-F06F-482C-863F-DB029C5A9EEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEFECCB3-F06F-482C-863F-DB029C5A9EEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEFECCB3-F06F-482C-863F-DB029C5A9EEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEFECCB3-F06F-482C-863F-DB029C5A9EEC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {57AE41C1-25FA-4098-A478-CC6AAAB3557E}
+	EndGlobalSection
+EndGlobal
