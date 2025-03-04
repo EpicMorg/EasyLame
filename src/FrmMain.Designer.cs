@@ -36,6 +36,7 @@
             this.groupBox = new System.Windows.Forms.GroupBox();
             this.panelDropToConvert = new System.Windows.Forms.Panel();
             this.buttonBrowse = new System.Windows.Forms.Button();
+            this.textBoxLog = new System.Windows.Forms.TextBox();
             this.statusStrip1.SuspendLayout();
             this.groupBox.SuspendLayout();
             this.SuspendLayout();
@@ -78,6 +79,7 @@
             this.groupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox.Controls.Add(this.textBoxLog);
             this.groupBox.Controls.Add(this.panelDropToConvert);
             this.groupBox.Enabled = false;
             this.groupBox.Location = new System.Drawing.Point(12, 12);
@@ -90,14 +92,18 @@
             // panelDropToConvert
             // 
             this.panelDropToConvert.AllowDrop = true;
+            this.panelDropToConvert.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panelDropToConvert.BackgroundImage")));
+            this.panelDropToConvert.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.panelDropToConvert.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panelDropToConvert.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.panelDropToConvert.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelDropToConvert.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelDropToConvert.Location = new System.Drawing.Point(3, 16);
             this.panelDropToConvert.Name = "panelDropToConvert";
-            this.panelDropToConvert.Size = new System.Drawing.Size(770, 357);
+            this.panelDropToConvert.Size = new System.Drawing.Size(770, 266);
             this.panelDropToConvert.TabIndex = 0;
             this.panelDropToConvert.Click += new System.EventHandler(this.panelDropToConvert_Click);
+            this.panelDropToConvert.DragDrop += new System.Windows.Forms.DragEventHandler(this.panelDropToConvert_DragDrop);
+            this.panelDropToConvert.DragEnter += new System.Windows.Forms.DragEventHandler(this.panelDropToConvert_DragEnter);
             // 
             // buttonBrowse
             // 
@@ -109,6 +115,17 @@
             this.buttonBrowse.TabIndex = 3;
             this.buttonBrowse.Text = "Browse";
             this.buttonBrowse.UseVisualStyleBackColor = true;
+            // 
+            // textBoxLog
+            // 
+            this.textBoxLog.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBoxLog.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.textBoxLog.Location = new System.Drawing.Point(3, 288);
+            this.textBoxLog.Multiline = true;
+            this.textBoxLog.Name = "textBoxLog";
+            this.textBoxLog.ReadOnly = true;
+            this.textBoxLog.Size = new System.Drawing.Size(770, 85);
+            this.textBoxLog.TabIndex = 1;
             // 
             // FrmMain
             // 
@@ -127,6 +144,7 @@
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.groupBox.ResumeLayout(false);
+            this.groupBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -141,6 +159,7 @@
         private System.Windows.Forms.GroupBox groupBox;
         private System.Windows.Forms.Panel panelDropToConvert;
         private System.Windows.Forms.Button buttonBrowse;
+        private System.Windows.Forms.TextBox textBoxLog;
     }
 }
 

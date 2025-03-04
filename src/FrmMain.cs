@@ -72,7 +72,7 @@ namespace EasyLame
             }
         }
 
-        private void RunLameProcess(string inputWavPath, string outputMp3Path)
+        private async void RunLameProcess(string inputWavPath, string outputMp3Path)
         {
             try
             {
@@ -84,30 +84,58 @@ namespace EasyLame
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
                     UseShellExecute = false,
-                    CreateNoWindow = true
+                    CreateNoWindow = true,
+                    StandardOutputEncoding = Encoding.UTF8, // Указываем кодировку
+                    StandardErrorEncoding = Encoding.UTF8
                 };
 
-                using (Process process = Process.Start(startInfo))
+                using (Process process = new Process())
                 {
-                    process.WaitForExit(); // Ждем завершения процесса
+                    process.StartInfo = startInfo;
+
+                    // Подписываемся на события вывода
+                    process.OutputDataReceived += (sender, e) => LogMessage(e.Data);
+                    process.ErrorDataReceived += (sender, e) => LogMessage(e.Data);
+
+                    // Запускаем процесс
+                    process.Start();
+
+                    // Начинаем асинхронное чтение вывода
+                    process.BeginOutputReadLine();
+                    process.BeginErrorReadLine();
+
+                    // Асинхронно ждем завершения процесса
+                    await Task.Run(() => process.WaitForExit());
 
                     // Проверяем результат выполнения
                     if (process.ExitCode == 0)
                     {
-                        MessageBox.Show("Конвертация завершена успешно!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LogMessage($"Конвертация файла {Path.GetFileName(inputWavPath)} завершена успешно!");
                     }
                     else
                     {
-                        string error = process.StandardError.ReadToEnd();
-                        MessageBox.Show($"Ошибка при конвертации: {error}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        LogMessage($"Ошибка при конвертации файла {Path.GetFileName(inputWavPath)}.");
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                LogMessage($"Ошибка: {ex.Message}");
             }
         }
+
+        private void LogMessage(string message)
+        {
+            // Выводим сообщение в TextBox
+            if (!string.IsNullOrEmpty(message))
+            {
+                textBoxLog.Invoke((MethodInvoker)delegate
+                {
+                    textBoxLog.AppendText($"{DateTime.Now}: {message}{Environment.NewLine}");
+                });
+            }
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
 
@@ -120,12 +148,58 @@ namespace EasyLame
             {
                 openFileDialog.Filter = "WAV Files (*.wav)|*.wav";
                 openFileDialog.Title = "Выберите WAV-файл";
+                openFileDialog.Multiselect = true; // Разрешаем выбор нескольких файлов
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    string inputWavPath = openFileDialog.FileName;
+                    // Обрабатываем каждый выбранный файл
+                    foreach (string inputWavPath in openFileDialog.FileNames)
+                    {
+                        // 2. Открываем диалог сохранения MP3-файла
+                        using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+                        {
+                            saveFileDialog.Filter = "MP3 Files (*.mp3)|*.mp3";
+                            saveFileDialog.Title = "Сохранить MP3-файл";
+                            saveFileDialog.FileName = Path.GetFileNameWithoutExtension(inputWavPath) + ".mp3";
 
-                    // 2. Открываем диалог сохранения MP3-файла
+                            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                            {
+                                string outputMp3Path = saveFileDialog.FileName;
+
+                                // 3. Запускаем процесс lame.exe
+                                RunLameProcess(inputWavPath, outputMp3Path);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private void panelDropToConvert_DragEnter(object sender, DragEventArgs e)
+        {
+            // Проверяем, что перетаскиваемый объект - это файл
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effect = DragDropEffects.Copy; // Разрешаем копирование
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None; // Запрещаем, если это не файл
+            }
+        }
+
+        private void panelDropToConvert_DragDrop(object sender, DragEventArgs e)
+        {
+            // Получаем список перетащенных файлов
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+            // Обрабатываем каждый файл
+            foreach (string inputWavPath in files)
+            {
+                // Проверяем, что файл имеет расширение .wav
+                if (Path.GetExtension(inputWavPath).ToLower() == ".wav")
+                {
+                    // Открываем диалог сохранения MP3-файла
                     using (SaveFileDialog saveFileDialog = new SaveFileDialog())
                     {
                         saveFileDialog.Filter = "MP3 Files (*.mp3)|*.mp3";
@@ -136,10 +210,14 @@ namespace EasyLame
                         {
                             string outputMp3Path = saveFileDialog.FileName;
 
-                            // 3. Запускаем процесс lame.exe
+                            // Запускаем процесс lame.exe
                             RunLameProcess(inputWavPath, outputMp3Path);
                         }
                     }
+                }
+                else
+                {
+                    LogMessage($"Файл {Path.GetFileName(inputWavPath)} не является WAV-файлом.");
                 }
             }
         }
