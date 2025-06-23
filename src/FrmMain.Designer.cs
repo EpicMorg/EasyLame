@@ -34,9 +34,9 @@
             this.toolStripStatusLabelLameExeStub = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelLameBool = new System.Windows.Forms.ToolStripStatusLabel();
             this.groupBox = new System.Windows.Forms.GroupBox();
+            this.textBoxLog = new System.Windows.Forms.TextBox();
             this.panelDropToConvert = new System.Windows.Forms.Panel();
             this.buttonBrowse = new System.Windows.Forms.Button();
-            this.textBoxLog = new System.Windows.Forms.TextBox();
             this.statusStrip1.SuspendLayout();
             this.groupBox.SuspendLayout();
             this.SuspendLayout();
@@ -89,6 +89,17 @@
             this.groupBox.TabStop = false;
             this.groupBox.Text = "Drop WAVe to convert or click:";
             // 
+            // textBoxLog
+            // 
+            this.textBoxLog.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBoxLog.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.textBoxLog.Location = new System.Drawing.Point(3, 288);
+            this.textBoxLog.Multiline = true;
+            this.textBoxLog.Name = "textBoxLog";
+            this.textBoxLog.ReadOnly = true;
+            this.textBoxLog.Size = new System.Drawing.Size(770, 85);
+            this.textBoxLog.TabIndex = 1;
+            // 
             // panelDropToConvert
             // 
             this.panelDropToConvert.AllowDrop = true;
@@ -116,17 +127,6 @@
             this.buttonBrowse.Text = "Browse";
             this.buttonBrowse.UseVisualStyleBackColor = true;
             // 
-            // textBoxLog
-            // 
-            this.textBoxLog.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBoxLog.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.textBoxLog.Location = new System.Drawing.Point(3, 288);
-            this.textBoxLog.Multiline = true;
-            this.textBoxLog.Name = "textBoxLog";
-            this.textBoxLog.ReadOnly = true;
-            this.textBoxLog.Size = new System.Drawing.Size(770, 85);
-            this.textBoxLog.TabIndex = 1;
-            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -136,6 +136,7 @@
             this.Controls.Add(this.groupBox);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.textBoxLamePath);
+            this.HelpButton = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FrmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

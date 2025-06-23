@@ -1,4 +1,5 @@
-﻿using System;
+﻿using emg.donation.library;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -17,6 +18,8 @@ namespace EasyLame
         //
         // Global strings
         //
+        string AppId = "EasyLame";
+        int AppPostponedDays = 7;
 
         string lameExe = "lame.exe";
         bool found = false;
@@ -26,6 +29,7 @@ namespace EasyLame
         public FrmMain()
         {
             InitializeComponent();
+            DonationStartup.ShowOnce(AppId, Convert.ToInt32(AppPostponedDays));
             LameCheck();
         }
         private void LameCheck()
