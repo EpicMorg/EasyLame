@@ -1,12 +1,8 @@
 ﻿using emg.donation.library;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -19,7 +15,7 @@ namespace EasyLame
         // Global strings
         //
         string AppId = "EasyLame";
-        int AppPostponedDays = 7;
+        int AppPostponedDays = 0;
 
         string lameExe = "lame.exe";
         bool found = false;
@@ -29,7 +25,6 @@ namespace EasyLame
         public FrmMain()
         {
             InitializeComponent();
-            DonationStartup.ShowOnce(AppId, Convert.ToInt32(AppPostponedDays));
             LameCheck();
         }
         private void LameCheck()
@@ -139,12 +134,7 @@ namespace EasyLame
                 });
             }
         }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
+         
         private void panelDropToConvert_Click(object sender, EventArgs e)
         {
             // 1. Открываем диалог выбора WAV-файла
@@ -224,6 +214,16 @@ namespace EasyLame
                     LogMessage($"Файл {Path.GetFileName(inputWavPath)} не является WAV-файлом.");
                 }
             }
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            DonationStartup.ShowOnce(AppId, Convert.ToInt32(AppPostponedDays));
         }
     }
 }
